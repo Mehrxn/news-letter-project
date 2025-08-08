@@ -162,7 +162,7 @@ class NewsProcessor:
             logger.error(f"Error scoring article: {str(e)}")
             return 5.0  # Default score
     
-    def process_articles(self, raw_articles: List[Dict], max_articles: int = 50) -> List[Dict]:
+    def process_articles(self, raw_articles: List[Dict], max_articles: int = 20) -> List[Dict]:
         """
         Process articles by generating AI summaries, removing duplicates, scoring, and limiting to max_articles.
         
@@ -273,8 +273,8 @@ def fetch_rss_feeds(feed_urls: List[str], timeout: int = 30) -> List[Dict]:
             # Extract source name from feed or URL
             source_name = get_source_name(feed, feed_url)
             
-            # Process each entry in the feed
-            for entry in feed.entries:
+            # Process each entry in the feed (limit to first 20 entries per feed)
+            for entry in feed.entries[:20]:
                 try:
                     article = extract_article_data(entry, source_name)
                     if article:
@@ -283,7 +283,7 @@ def fetch_rss_feeds(feed_urls: List[str], timeout: int = 30) -> List[Dict]:
                     logger.error(f"Error processing entry from {feed_url}: {str(e)}")
                     continue
             
-            logger.info(f"Successfully processed {len(feed.entries)} articles from {source_name}")
+            logger.info(f"Successfully processed {min(len(feed.entries), 20)} articles from {source_name}")
             
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error fetching {feed_url}: {str(e)}")
@@ -439,8 +439,8 @@ def main():
         news_processor = NewsProcessor(gemini_api_key)
         
         # Process articles with AI summarization, scoring, and deduplication
-        print(f"\nProcessing up to 50 articles with Gemini AI (scoring and sorting by relevance)...")
-        processed_articles = news_processor.process_articles(articles, max_articles=50)
+        print(f"\nProcessing up to 20 articles with Gemini AI (scoring and sorting by relevance)...")
+        processed_articles = news_processor.process_articles(articles, max_articles=20)
         
         if processed_articles:
             # Display results

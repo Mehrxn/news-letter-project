@@ -1,12 +1,19 @@
-from pymongo import MongoClient
 from datetime import datetime
-import os
-from dotenv import load_dotenv
+from typing import Optional, List, Dict, Any, Union
+from db.connection import get_database
 
-load_dotenv()
 
 class Article:
-    def __init__(self, title, summary, url, source, publication_date, author=None, tags=None):
+    def __init__(
+        self,
+        title: str,
+        summary: str,
+        url: str,
+        source: str,
+        publication_date: datetime,
+        author: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+    ) -> None:
         self.title = title
         self.summary = summary
         self.url = url
@@ -15,19 +22,43 @@ class Article:
         self.author = author
         self.tags = tags if tags is not None else []
 
-def insert_article(article):
+    def to_document(self) -> Dict[str, Any]:
+        return {
+            "title": self.title,
+            "summary": self.summary,
+            "url": self.url,
+            "source": self.source,
+            "publication_date": self.publication_date,
+            "author": self.author,
+            "tags": self.tags,
+        }
+
+
+def insert_article(db, article: Union[Article, Dict[str, Any]]) -> bool:
+    """Insert an Article into the provided database.
+
+    Expects a database handle (from get_database/connect_to_mongo) and an Article instance.
+    Returns True on success, False otherwise.
+    """
     try:
-        client = MongoClient(os.getenv("MONGO_URI"))
-        db = client['news_database']
-        articles_collection = db['articles']
-        
+        if db is None:
+            print("No database handle provided (db is None)")
+            return False
+
+        articles_collection = db["articles"]
+
         # Ensure unique index on the url field
         articles_collection.create_index([("url", 1)], unique=True)
 
-        result = articles_collection.insert_one(article.__dict__)
+        # Support both Article instances and plain dicts
+        document = article.to_document() if hasattr(article, "to_document") else dict(article)
+
+        result = articles_collection.insert_one(document)
         if result.inserted_id:
             print(f"Article inserted with id: {result.inserted_id}")
-        else:
-            print("Failed to insert article.")
+            return True
+        print("Failed to insert article.")
+        return False
     except Exception as e:
         print(f"An error occurred: {e}")
+        return False
