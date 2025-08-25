@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional, List, Dict, Any, Union
-from db.connection import get_database
+from pymongo.errors import DuplicateKeyError
 
 
 class Article:
@@ -53,12 +53,27 @@ def insert_article(db, article: Union[Article, Dict[str, Any]]) -> bool:
         # Support both Article instances and plain dicts
         document = article.to_document() if hasattr(article, "to_document") else dict(article)
 
-        result = articles_collection.insert_one(document)
-        if result.inserted_id:
-            print(f"Article inserted with id: {result.inserted_id}")
-            return True
-        print("Failed to insert article.")
-        return False
+        # Require URL for idempotent behavior
+        url_value = document.get("url")
+        if not url_value:
+            print("Document missing required 'url' field; cannot upsert")
+            return False
+
+        # Idempotent upsert: insert on first occurrence, skip on duplicate
+        result = articles_collection.update_one(
+            {"url": url_value},
+            {"$setOnInsert": document},
+            upsert=True,
+        )
+
+        if result.upserted_id is not None:
+            print(f"Article inserted with id: {result.upserted_id}")
+        else:
+            print("Article with this URL already exists; skipped inserting duplicate.")
+        return True
+    except DuplicateKeyError:
+        print("Article with this URL already exists; skipped inserting duplicate.")
+        return True
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
