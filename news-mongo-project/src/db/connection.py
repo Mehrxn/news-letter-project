@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_database():
+def get_db():
     """Return a MongoDB database handle.
 
     Resolution order:
@@ -14,29 +14,14 @@ def get_database():
     """
     mongo_uri = os.getenv("MONGO_URI")
     if not mongo_uri:
-        print("Error: MONGO_URI not set in environment")
-        return None
-    try:
-        client = MongoClient(mongo_uri)
+        raise Exception("MONGO_URI not found in environment variables")
+    client = MongoClient(mongo_uri)
 
-        # Prefer explicit DB name from env
-        db_name = os.getenv("MONGO_DB_NAME")
-        if db_name:
-            return client[db_name]
+    # Prefer explicit DB name from env
+    db_name = os.getenv("MONGO_DB_NAME", "newsletter")  # fallback db name
+    db = client[db_name]
 
-        # Try default DB from URI (works when URI ends with /dbname)
-        try:
-            db = client.get_default_database()
-            if db is not None:
-                return db
-        except Exception:
-            pass
-
-        # Fallback to a sensible default
-        return client["news_database"]
-    except Exception as e:
-        print(f"Error connecting to MongoDB: {e}")
-        return None
+    return db
 
 
 # Backwards-compatible alias expected by callers
@@ -46,4 +31,4 @@ def connect_to_mongo():
     This function is a thin wrapper around get_database() provided
     for compatibility with existing imports in the codebase.
     """
-    return get_database()
+    return get_db()

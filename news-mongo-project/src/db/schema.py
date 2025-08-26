@@ -1,4 +1,5 @@
 from pymongo import MongoClient, errors
+from pymongo.errors import DuplicateKeyError
 from datetime import datetime
 
 class ArticleSchema:
@@ -27,3 +28,15 @@ def create_unique_index(collection):
         collection.create_index([("url", 1)], unique=True)
     except errors.DuplicateKeyError:
         print("Unique index on 'url' already exists.")
+
+def setup_article_collection(db):
+    db.articles.create_index("url", unique=True)
+
+def insert_article(db, article_dict):
+    setup_article_collection(db)
+    try:
+        result = db.articles.insert_one(article_dict)
+        return result.inserted_id
+    except DuplicateKeyError:
+        print(f"Duplicate article found for URL: {article_dict['url']}")
+        return None

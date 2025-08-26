@@ -1,9 +1,24 @@
 from dotenv import load_dotenv
 import os
 from datetime import datetime
-from db.connection import connect_to_mongo
-from models.article import insert_article
-from db.schema import ArticleSchema
+from db.connection import get_db
+from db.schema import insert_article
+from models.article import Article
+
+def save_articles_to_mongo(processed_articles):
+    db = get_db()
+    for art in processed_articles:
+        article = Article(
+            title=art['title'],
+            summary=art.get('llm_summary', art.get('summary')),
+            url=art['link'],
+            source=art['source'],
+            publication_date=art.get('publication_date', datetime.now()),
+            author=art.get('author'),
+            tags=art.get('tags', []),
+            score=art.get('score')
+        )
+        insert_article(db, article.to_dict())
 
 def main():
     # Load environment variables
@@ -30,4 +45,10 @@ def main():
         print("Failed to insert article.")
 
 if __name__ == "__main__":
-    main()
+    # Import your scoring/news generator logic
+    from newsletter_generator import main as generate_news
+
+    # Modify newsletter_generator.py: main(return_articles=True) returns processed_articles
+    processed_articles = generate_news(return_articles=True)
+    save_articles_to_mongo(processed_articles)
+    print("Articles saved to MongoDB Atlas.")

@@ -73,3 +73,40 @@
 2025-08-25 11:27:18,852 - INFO - Successfully processed 20 articles (removed 69 duplicates/over limit)
 2025-08-25 11:27:18,853 - INFO - Articles sorted by score (highest: 9.5, lowest: 8.0)
 2025-08-25 11:27:18,862 - INFO - Articles saved to newsletter_articles_ai.txt
+2025-08-25 12:27:55,146 - INFO - Fetching feed: https://feeds.bbci.co.uk/news/rss.xml
+2025-08-25 12:27:56,677 - INFO - Successfully processed 20 articles from BBC News
+2025-08-25 12:27:57,679 - INFO - Fetching feed: https://feeds.feedburner.com/TechCrunch/
+2025-08-25 12:28:00,788 - INFO - Successfully processed 20 articles from Crunch Hype
+2025-08-25 12:28:01,789 - INFO - Fetching feed: https://www.theverge.com/rss/index.xml
+2025-08-25 12:28:03,487 - INFO - Successfully processed 10 articles from The Verge
+2025-08-25 12:28:04,489 - INFO - Fetching feed: https://feeds.feedburner.com/venturebeat/SZYF
+2025-08-25 12:28:05,566 - INFO - Successfully processed 19 articles from VentureBeat
+2025-08-25 12:28:06,567 - INFO - Fetching feed: https://feeds.feedburner.com/arstechnica/index
+2025-08-25 12:28:08,437 - INFO - Successfully processed 20 articles from Ars Technica - All content
+2025-08-25 12:28:09,439 - INFO - Total articles collected: 89
+2025-08-25 12:28:09,440 - INFO - NewsProcessor initialized successfully with Gemini API
+2025-08-25 12:28:09,440 - INFO - Processing up to 20 articles from 89 total articles
+2025-08-25 12:28:09,440 - INFO - Processing article 1/20: Inside Donetsk as residents flee attacks on Ukrain... (Score: 9.5)
+2025-08-25 12:28:19,274 - INFO - Processing article 2/20: A cut-off finger ended her comfortable family life... (Score: 8.5)
+2025-08-25 12:28:30,192 - INFO - Processing article 3/20: 'Once-in-a-lifetime chance': Gaza scholars await U... (Score: 9.0)
+2025-08-25 12:28:39,696 - INFO - Processing article 4/20: Lives torn apart by fatal crashes on Scotland's lo... (Score: 8.5)
+2025-08-25 12:28:52,235 - INFO - Processing article 5/20: Chinese property giant Evergrande delisted after s... (Score: 8.0)
+2025-08-25 12:29:01,655 - INFO - Processing article 6/20: Women aren't just 'cosy gamers' - I play horror ga... (Score: 8.5)
+2025-08-25 12:29:10,323 - INFO - Processing article 7/20: Watch: Notting Hill Carnival kicks off with the ch... (Score: 8.0)
+2025-08-25 12:29:19,669 - INFO - Processing article 8/20: Get ready for fracking, Reform UK tells energy fir... (Score: 8.0)
+2025-08-25 12:29:28,286 - INFO - Processing article 9/20: Jerry Adler, who starred in The Sopranos, dies age... (Score: 8.0)
+2025-08-25 12:29:38,213 - INFO - Processing article 10/20: Fleetwood wins Tour Championship for first PGA Tou... (Score: 9.5)
+2025-08-25 12:29:45,789 - INFO - Processing article 11/20: UK could hit 30C on bank holiday Monday ahead of r... (Score: 9.0)
+2025-08-25 12:29:53,544 - INFO - Processing article 12/20: Has the British summer changed beyond recognition?... (Score: 9.5)
+2025-08-25 12:30:02,178 - INFO - Processing article 13/20: The Papers: 'Trump cuts off Kyiv's missiles' and K... (Score: 9.5)
+2025-08-25 12:30:10,601 - INFO - Processing article 14/20: How Russia is quietly trying to win over the world... (Score: 8.5)
+2025-08-25 12:30:21,731 - INFO - Processing article 15/20: Teething problems for Man Utd's £200m frontline... (Score: 8.5)
+2025-08-25 12:30:30,027 - INFO - Processing article 16/20: Why should I care about the crisis-hit Chinese pro... (Score: 8.0)
+2025-08-25 12:30:38,629 - INFO - Processing article 17/20: Play here... (Score: 8.0)
+2025-08-25 12:30:46,413 - INFO - Processing article 18/20: India won't be pressured by US into reducing Russi... (Score: 8.5)
+2025-08-25 12:30:55,391 - INFO - Processing article 19/20: Hongkongers squawk-off in city's first bird call c... (Score: 9.5)
+2025-08-25 12:31:03,602 - INFO - Processing article 20/20: France summons US envoy over antisemitism claims... (Score: 9.0)
+2025-08-25 12:31:11,908 - INFO - Reached limit of 20 articles, stopping processing
+2025-08-25 12:31:11,908 - INFO - Successfully processed 20 articles (removed 69 duplicates/over limit)
+2025-08-25 12:31:11,908 - INFO - Articles sorted by score (highest: 9.5, lowest: 8.0)
+2025-08-25 12:31:11,915 - INFO - Articles saved to newsletter_articles_ai.txt

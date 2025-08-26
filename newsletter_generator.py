@@ -387,7 +387,7 @@ def extract_article_data(entry: feedparser.FeedParserDict, source_name: str) -> 
         return None
 
 
-def main():
+def main(return_articles=False):
     """
     Main function to demonstrate the newsletter generator with AI processing.
     """
@@ -482,6 +482,9 @@ def main():
         print("AI processing failed. Saving articles without AI processing...")
         save_articles_to_file(articles, "newsletter_articles.txt")
         print(f"\nArticles saved to 'newsletter_articles.txt' (without AI processing)")
+    
+    if return_articles:
+        return processed_articles
 
 
 def save_articles_to_file(articles: List[Dict], filename: str):
@@ -569,4 +572,4 @@ def example_usage():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

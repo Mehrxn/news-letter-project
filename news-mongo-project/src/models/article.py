@@ -13,6 +13,7 @@ class Article:
         publication_date: datetime,
         author: Optional[str] = None,
         tags: Optional[List[str]] = None,
+        score: Optional[float] = None,
     ) -> None:
         self.title = title
         self.summary = summary
@@ -21,6 +22,7 @@ class Article:
         self.publication_date = publication_date
         self.author = author
         self.tags = tags if tags is not None else []
+        self.score = score
 
     def to_document(self) -> Dict[str, Any]:
         return {
@@ -31,6 +33,7 @@ class Article:
             "publication_date": self.publication_date,
             "author": self.author,
             "tags": self.tags,
+            "score": self.score,
         }
 
 
